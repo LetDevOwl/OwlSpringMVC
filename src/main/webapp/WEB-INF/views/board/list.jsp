@@ -97,7 +97,7 @@
 		</table>
 		<script>
 			function showInsertPage() {
-				location.href="/board/insert.kh";
+				location.href="/board/write.kh";
 			}
 		</script>
 	</body>

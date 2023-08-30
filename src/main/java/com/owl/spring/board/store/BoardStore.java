@@ -18,6 +18,22 @@ public interface BoardStore {
 	int insertBoard(SqlSession sqlSession, Board board);
 
 	/**
+	 * 게시물 수정 Store
+	 * @param sqlSession
+	 * @param board
+	 * @return
+	 */
+	int updateBoard(SqlSession sqlSession, Board board);
+
+	/**
+	 * 게시글 삭제 Store
+	 * @param sqlSession
+	 * @param board
+	 * @return
+	 */
+	int deleteBoard(SqlSession sqlSession, Board board);
+
+	/**
 	 * 전체 게시물 갯수 Store
 	 * @param sqlSession
 	 * @return
@@ -33,7 +49,7 @@ public interface BoardStore {
 	List<Board> selectBoardList(SqlSession sqlSession, PageInfo pInfo);
 
 	/**
-	 * 게시물 상세 조회
+	 * 게시물 상세 조회 Store
 	 * @param sqlSession
 	 * @param boardNo
 	 * @return

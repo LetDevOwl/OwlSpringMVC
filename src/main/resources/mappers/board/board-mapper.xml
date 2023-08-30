@@ -22,15 +22,61 @@
 		INSERT INTO BOARD_TBL VALUES(SEQ_BOARD_NO.NEXTVAL, #{boardTitle},#{boardContent },#{boardWriter },#{boardFilename },#{boardFileRename},#{boardFilepath },#{boardFileLength },0 ,DEFAULT,DEFAULT,DEFAULT)
 	</insert>
 	
+	<update id="updateBoard">
+		UPDATE BOARD_TBL SET BOARD_TITLE = #{boardTitle }, BOARD_CONTENT = #{boardContent }, BOARD_FILENAME = #{boardFilename }, BOARD_FILERENAME = #{boardFileRename }, BOARD_FILEPATH = #{boardFilepath }, BOARD_FILELENGTH = #{boardFileLength }, B_UPDATE_DATE = DEFAULT WHERE BOARD_NO = #{boardNo }
+	</update>
+	
+	<update id="deleteBoard">
+		UPDATE BOARD_TBL SET B_STATUS = 'N' WHERE BOARD_NO = #{boardNo } AND BOARD_WRITER = #{boardWriter }
+	</update>
+	
 	<select id="selectListCount" resultType="_int">
-		SELECT COUNT(*) FROM BOARD_TBL
+		SELECT COUNT(*) FROM BOARD_TBL WHERE B_STATUS = 'Y'
 	</select>
 	
 	<select id="selectBoardList" resultMap="boardResultMap">
-		SELECT * FROM BOARD_TBL ORDER BY BOARD_NO DESC
+		SELECT * FROM BOARD_TBL WHERE B_STATUS = 'Y' ORDER BY BOARD_NO DESC
 	</select>
 	
 	<select id="selectBoardByNo" resultMap="boardResultMap">
-		SELECT * FROM BOARD_TBL WHERE BOARD_NO = ${boardNo }
+		SELECT * FROM BOARD_TBL WHERE BOARD_NO = ${boardNo } AND B_STATUS = 'Y'
+	</select>
+	
+	<select id="searchNoticesByKeyword" resultMap="boardResultMap">
+		SELECT * FROM NOTICE_TBL WHERE B_STATUS = 'Y'
+		<if test="searchCondition == 'all'">
+			WHERE NOTICE_SUBJECT LIKE '%'||#{searchKeyword }||'%' OR
+			NOTICE_CONTENT LIKE '%'||#{searchKeywored }||'%' OR NOTICE_WRITER
+			LIKE '%'||#{searchKeywored }||'%'
+		</if>
+		<if test="searchCondition == 'title'">
+			WHERE NOTICE_SUBJECT LIKE '%'||#{searchKeyword }||'%'
+		</if>
+		<if test="searchCondition == 'writer'">
+			WHERE NOTICE_WRITER LIKE '%'||#{searchKeyword }||'%'
+		</if>
+		<if test="searchCondition == 'content'">
+			WHERE NOTICE_CONTENT LIKE '%'||#{searchKeyword }||'%'
+		</if>
+		AND B_STATUS = 'Y'
+	</select>
+	
+	<select id="selectListByKeywordCount" resultType="_int">
+		SELECT COUNT(*) FROM NOTICE_TBL WHERE B_STATUS = 'Y'
+		<if test="searchCondition == 'all'">
+			WHERE NOTICE_SUBJECT LIKE '%'||#{searchKeyword }||'%' OR
+			NOTICE_CONTENT LIKE '%'||#{searchKeywored }||'%' OR NOTICE_WRITER
+			LIKE '%'||#{searchKeywored }||'%'
+		</if>
+		<if test="searchCondition == 'title'">
+			WHERE NOTICE_SUBJECT LIKE '%'||#{searchKeyword }||'%'
+		</if>
+		<if test="searchCondition == 'writer'">
+			WHERE NOTICE_WRITER LIKE '%'||#{searchKeyword }||'%'
+		</if>
+		<if test="searchCondition == 'content'">
+			WHERE NOTICE_CONTENT LIKE '%'||#{searchKeyword }||'%'
+		</if>
+		AND B_STATUS = 'Y'
 	</select>
 </mapper>

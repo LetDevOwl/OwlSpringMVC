@@ -20,10 +20,10 @@
 			${memberName }님 환영합니다.<br>
 			<a href="/member/logout.kh">로그아웃</a>
 			<form action="/member/mypage.kh" method="post">
-<%-- 				<input type="hidden" name="memberId" value="${memberId }" > --%>
+				<input type="hidden" name="memberId" value="${memberId }" >
 				<input type="submit" value="마이페이지" >
 			</form>
-			<a href="/member/mypage.kh">마이페이지</a>
+			<a href="/member/mypage.kh">마이페이지</a> <a href="/board/list.kh">게시판</a>
 		</c:if>
 	</body>
 </html>
